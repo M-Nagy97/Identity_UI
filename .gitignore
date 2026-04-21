@@ -1,0 +1,28 @@
+# Angular
+.angular/
+dist/
+out-tsc/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+ui-dev.stdout.log
+ui-dev.stderr.log
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+
+# Test and coverage
+coverage/

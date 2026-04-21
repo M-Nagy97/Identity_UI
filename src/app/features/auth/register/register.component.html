@@ -1,0 +1,95 @@
+<div class="auth-card auth-card--wide">
+  <div class="auth-card-header">
+    <span class="auth-card-badge">{{ 'auth.register_badge' | translate }}</span>
+    <h2>{{ 'auth.register_title' | translate }}</h2>
+    <p>{{ 'auth.register_subtitle' | translate }}</p>
+  </div>
+
+  <form class="auth-form auth-form--grid" [formGroup]="form" (ngSubmit)="submit()">
+    <label class="auth-field">
+      <span>{{ 'auth.first_name' | translate }}</span>
+      <input pInputText type="text" formControlName="name" [placeholder]="'auth.first_name_placeholder' | translate" />
+      @if (isInvalid('name')) {
+        <small class="auth-error">{{ 'auth.first_name_required' | translate }}</small>
+      }
+    </label>
+
+    <label class="auth-field">
+      <span>{{ 'auth.last_name' | translate }}</span>
+      <input pInputText type="text" formControlName="family" [placeholder]="'auth.last_name_placeholder' | translate" />
+      @if (isInvalid('family')) {
+        <small class="auth-error">{{ 'auth.last_name_required' | translate }}</small>
+      }
+    </label>
+
+    <label class="auth-field">
+      <span>{{ 'auth.username' | translate }}</span>
+      <input pInputText type="text" formControlName="username" [placeholder]="'auth.username_placeholder' | translate" />
+      @if (isInvalid('username')) {
+        <small class="auth-error">{{ 'auth.username_required' | translate }}</small>
+      }
+    </label>
+
+    <label class="auth-field">
+      <span>{{ 'auth.email' | translate }}</span>
+      <input pInputText type="email" formControlName="email" [placeholder]="'auth.email_placeholder' | translate" />
+      @if (isInvalid('email')) {
+        <small class="auth-error">{{ 'auth.email_required' | translate }}</small>
+      }
+    </label>
+
+    <label class="auth-field">
+      <span>{{ 'auth.phone' | translate }}</span>
+      <input pInputText type="tel" formControlName="phoneNumber" [placeholder]="'auth.phone_placeholder' | translate" />
+      @if (isInvalid('phoneNumber')) {
+        <small class="auth-error">{{ 'auth.phone_required' | translate }}</small>
+      }
+    </label>
+
+    <div class="auth-field auth-field--full">
+      <span>{{ 'auth.password' | translate }}</span>
+      <p-password
+        formControlName="password"
+        [toggleMask]="true"
+        [feedback]="false"
+        [placeholder]="'auth.password_placeholder' | translate"
+        styleClass="auth-password"
+        inputStyleClass="auth-password-input"
+      />
+      @if (isInvalid('password')) {
+        <small class="auth-error">{{ 'auth.password_required' | translate }}</small>
+      }
+    </div>
+
+    <div class="auth-field auth-field--full">
+      <span>{{ 'auth.confirm_password' | translate }}</span>
+      <p-password
+        formControlName="confirmPassword"
+        [toggleMask]="true"
+        [feedback]="false"
+        [placeholder]="'auth.confirm_password_placeholder' | translate"
+        styleClass="auth-password"
+        inputStyleClass="auth-password-input"
+      />
+      @if (passwordsDoNotMatch) {
+        <small class="auth-error">{{ 'auth.password_mismatch' | translate }}</small>
+      } @else if (isInvalid('confirmPassword')) {
+        <small class="auth-error">{{ 'auth.confirm_password_required' | translate }}</small>
+      }
+    </div>
+
+    <button
+      pButton
+      type="submit"
+      class="auth-submit auth-field--full"
+      [label]="'auth.register_action' | translate"
+      [loading]="submitting()"
+      [disabled]="submitting()"
+    ></button>
+  </form>
+
+  <p class="auth-switch">
+    {{ 'auth.have_account' | translate }}
+    <a routerLink="/login">{{ 'auth.login_link' | translate }}</a>
+  </p>
+</div>

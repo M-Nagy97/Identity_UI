@@ -1,0 +1,183 @@
+<div class="edit-page">
+  <p-card>
+    <div class="page-header">
+      <div>
+        <div class="page-title">{{ 'users.edit.title' | translate }}</div>
+        <div class="page-subtitle">{{ 'users.edit.subtitle' | translate }}</div>
+      </div>
+
+      <button
+        pButton
+        type="button"
+        severity="secondary"
+        icon="pi pi-arrow-left"
+        [label]="'common.back' | translate"
+        routerLink="/users/list"
+      ></button>
+    </div>
+
+    @if (loading()) {
+      <div class="loading-state">
+        <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+        <span>{{ 'users.edit.loading' | translate }}</span>
+      </div>
+    } @else {
+      <form class="edit-form p-fluid">
+        <section class="form-section" [formGroup]="accountForm">
+          <div class="form-section__header">
+            <h3>{{ 'users.edit.account_section' | translate }}</h3>
+            <p>{{ 'users.edit.account_hint' | translate }}</p>
+          </div>
+
+          <div class="grid">
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="userName">{{ 'users.basic.username' | translate }}</label>
+              <input
+                id="userName"
+                type="text"
+                pInputText
+                formControlName="userName"
+                [placeholder]="'users.basic.username_placeholder' | translate"
+              />
+              @if (isAccountInvalid('userName')) {
+                <small class="p-error">{{ 'users.basic.username_required' | translate }}</small>
+              }
+            </div>
+
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="email">{{ 'users.basic.email' | translate }}</label>
+              <input
+                id="email"
+                type="email"
+                pInputText
+                formControlName="email"
+                [placeholder]="'users.basic.email_placeholder' | translate"
+              />
+              @if (isAccountInvalid('email')) {
+                <small class="p-error">{{ 'users.basic.email_required' | translate }}</small>
+              }
+            </div>
+
+            <div class="col-12">
+              <div class="toggle-row">
+                <p-checkbox inputId="isActive" formControlName="isActive" [binary]="true"></p-checkbox>
+                <label for="isActive">{{ 'users.basic.is_active' | translate }}</label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" [formGroup]="profileForm">
+          <div class="form-section__header">
+            <h3>{{ 'users.edit.profile_section' | translate }}</h3>
+            <p>{{ 'users.edit.profile_hint' | translate }}</p>
+          </div>
+
+          <div class="grid">
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="displayName">{{ 'users.profile.display_name' | translate }}</label>
+              <input
+                id="displayName"
+                type="text"
+                pInputText
+                formControlName="displayName"
+                [placeholder]="'users.profile.display_name_placeholder' | translate"
+              />
+              @if (isProfileInvalid('displayName')) {
+                <small class="p-error">{{ 'users.profile.display_name_required' | translate }}</small>
+              }
+            </div>
+
+            <div class="col-12 md:col-3">
+              <label class="field-label" for="firstName">{{ 'users.profile.first_name' | translate }}</label>
+              <input
+                id="firstName"
+                type="text"
+                pInputText
+                formControlName="firstName"
+                [placeholder]="'users.profile.first_name_placeholder' | translate"
+              />
+            </div>
+
+            <div class="col-12 md:col-3">
+              <label class="field-label" for="lastName">{{ 'users.profile.last_name' | translate }}</label>
+              <input
+                id="lastName"
+                type="text"
+                pInputText
+                formControlName="lastName"
+                [placeholder]="'users.profile.last_name_placeholder' | translate"
+              />
+            </div>
+
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="phoneNumber">{{ 'users.profile.phone' | translate }}</label>
+              <input
+                id="phoneNumber"
+                type="text"
+                pInputText
+                formControlName="phoneNumber"
+                [placeholder]="'users.profile.phone_placeholder' | translate"
+              />
+            </div>
+
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="avatarUrl">{{ 'users.profile.avatar' | translate }}</label>
+              <input
+                id="avatarUrl"
+                type="url"
+                pInputText
+                formControlName="avatarUrl"
+                [placeholder]="'users.profile.avatar_placeholder' | translate"
+              />
+            </div>
+
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="timeZone">{{ 'users.profile.timezone' | translate }}</label>
+              <input
+                id="timeZone"
+                type="text"
+                pInputText
+                formControlName="timeZone"
+                [placeholder]="'users.profile.timezone_placeholder' | translate"
+              />
+            </div>
+
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="preferredLanguage">{{ 'users.profile.language' | translate }}</label>
+              <input
+                id="preferredLanguage"
+                type="text"
+                pInputText
+                formControlName="preferredLanguage"
+                [placeholder]="'users.profile.language_placeholder' | translate"
+              />
+            </div>
+
+            <div class="col-12">
+              <label class="field-label" for="bio">{{ 'users.profile.bio' | translate }}</label>
+              <textarea
+                id="bio"
+                pInputTextarea
+                rows="5"
+                formControlName="bio"
+                [placeholder]="'users.profile.bio_placeholder' | translate"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div class="submit-bar">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-save"
+            [label]="'common.save' | translate"
+            [loading]="saving()"
+            (click)="save()"
+          ></button>
+        </div>
+      </form>
+    }
+  </p-card>
+</div>

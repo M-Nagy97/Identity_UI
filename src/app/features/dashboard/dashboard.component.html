@@ -1,0 +1,29 @@
+<section class="dashboard-hero">
+  <div>
+    <span class="dashboard-eyebrow">{{ 'dashboard.ready_badge' | translate }}</span>
+    <h1>{{ 'dashboard.welcome' | translate }}</h1>
+    <p>{{ 'dashboard.subtitle' | translate }}</p>
+  </div>
+
+  <div class="dashboard-actions">
+    <a pButton routerLink="/register" [label]="'auth.register_link' | translate" severity="secondary"></a>
+    <a pButton routerLink="/login" [label]="'auth.login_link' | translate"></a>
+  </div>
+</section>
+
+<section class="dashboard-grid">
+  <p-card styleClass="dashboard-card">
+    <h2>{{ 'dashboard.card_identity_title' | translate }}</h2>
+    <p>{{ 'dashboard.card_identity_body' | translate }}</p>
+  </p-card>
+
+  <p-card styleClass="dashboard-card">
+    <h2>{{ 'dashboard.card_access_title' | translate }}</h2>
+    <p>{{ 'dashboard.card_access_body' | translate }}</p>
+  </p-card>
+
+  <p-card styleClass="dashboard-card">
+    <h2>{{ 'dashboard.card_launch_title' | translate }}</h2>
+    <p>{{ 'dashboard.card_launch_body' | translate }}</p>
+  </p-card>
+</section>

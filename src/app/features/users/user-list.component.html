@@ -1,0 +1,78 @@
+<div class="users-page">
+  <p-card>
+    <div class="page-header">
+      <div>
+        <div class="page-title">{{ 'users.list.title' | translate }}</div>
+        <div class="page-subtitle">{{ 'users.list.subtitle' | translate }}</div>
+      </div>
+
+      <button
+        pButton
+        type="button"
+        icon="pi pi-refresh"
+        severity="secondary"
+        [label]="'users.list.refresh' | translate"
+        [loading]="loading()"
+        (click)="loadUsers()"
+      ></button>
+    </div>
+
+    @if (loading()) {
+      <div class="loading-state">
+        <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+        <span>{{ 'users.list.loading' | translate }}</span>
+      </div>
+    } @else {
+      <p-table
+        [value]="users()"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [tableStyle]="{ 'min-width': '48rem' }"
+        styleClass="users-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ 'users.list.columns.username' | translate }}</th>
+            <th>{{ 'users.list.columns.email' | translate }}</th>
+            <th>{{ 'users.list.columns.status' | translate }}</th>
+            <th class="actions-column">{{ 'users.list.columns.actions' | translate }}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-user>
+          <tr>
+            <td>
+              <div class="user-cell">
+                <span class="user-avatar">{{ (user.userName || '?').charAt(0).toUpperCase() }}</span>
+                <span>{{ user.userName || '-' }}</span>
+              </div>
+            </td>
+            <td>{{ user.email || '-' }}</td>
+            <td>
+              <p-tag [severity]="statusSeverity(user)" [value]="statusLabel(user)"></p-tag>
+            </td>
+            <td class="actions-column">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-user-edit"
+                size="small"
+                [label]="'users.list.edit_profile' | translate"
+                [routerLink]="['/users/edit', user.id]"
+                [disabled]="!user.id"
+                [pTooltip]="'users.list.edit_profile' | translate"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="4" class="empty-state">{{ 'users.list.empty' | translate }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </p-card>
+</div>
