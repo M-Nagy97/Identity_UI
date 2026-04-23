@@ -21,3 +21,4 @@ export interface UpdateUserProfileRequestDto {
     preferredLanguage?: string | null;
     bio?: string | null;
 }
+

@@ -5,7 +5,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 
-const SIDEBAR_COLLAPSED_KEY = 'technical-office-sidebar-collapsed';
+const SIDEBAR_COLLAPSED_KEY = 'reusable-identity-sidebar-collapsed';
 
 @Component({
   selector: 'app-main-layout',

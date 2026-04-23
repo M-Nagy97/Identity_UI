@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { AuthService } from '../../../core/api/generated';
 
-const SESSION_KEY = 'technical-office-authenticated';
-const ACCESS_TOKEN_KEY = 'technical-office-access-token';
-const REFRESH_TOKEN_KEY = 'technical-office-refresh-token';
-const USER_ID_KEY = 'technical-office-user-id';
+const SESSION_KEY = 'reusable-identity-authenticated';
+const ACCESS_TOKEN_KEY = 'reusable-identity-access-token';
+const REFRESH_TOKEN_KEY = 'reusable-identity-refresh-token';
+const USER_ID_KEY = 'reusable-identity-user-id';
 
 @Injectable({ providedIn: 'root' })
 export class AuthSessionService {
@@ -17,7 +17,7 @@ export class AuthSessionService {
   readonly currentUserId = signal<string | null>(this.resolveUserId());
 
   login(credentials: { username: string; password: string }): Observable<void> {
-    return this.authService.authLogin({
+    return this.authService.apiAuthLoginPost({
       userNameOrEmail: credentials.username,
       password: credentials.password,
     } as never).pipe(
@@ -35,7 +35,7 @@ export class AuthSessionService {
   }): Observable<void> {
     const displayName = [payload.name, payload.family].filter(Boolean).join(' ').trim();
 
-    return this.authService.authRegister({
+    return this.authService.apiAuthRegisterPost({
       userName: payload.username,
       email: payload.email,
       password: payload.password,
@@ -49,7 +49,7 @@ export class AuthSessionService {
     const refreshToken = this.readStorage(REFRESH_TOKEN_KEY);
 
     return (refreshToken
-      ? this.authService.authRevokeRefreshToken({ refreshToken })
+      ? this.authService.apiAuthRevokeRefreshTokenPost({ refreshToken })
       : of(null)
     ).pipe(
       catchError(() => of(null)),

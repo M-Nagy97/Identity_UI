@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-const ACCESS_TOKEN_KEY = 'technical-office-access-token';
+const ACCESS_TOKEN_KEY = 'reusable-identity-access-token';
 
 export interface IdentityRole {
   id?: string;

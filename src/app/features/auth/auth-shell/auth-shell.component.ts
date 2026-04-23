@@ -5,7 +5,7 @@ import { ToastModule } from 'primeng/toast';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../core/services/language.service';
 
-const THEME_KEY = 'technical-office-theme';
+const THEME_KEY = 'reusable-identity-theme';
 
 @Component({
   selector: 'app-auth-shell',

@@ -12,14 +12,6 @@ import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-import {
-  DateAdapter,
-  CalendarUtils,
-  CalendarEventTitleFormatter,
-  CalendarDateFormatter,
-  CalendarA11y,
-} from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 // PrimeNG 17: theme is loaded in styles (main.scss). For PrimeNG 18+ use providePrimeNG({ theme: { preset: Aura }, ripple: true }).
 
@@ -32,7 +24,7 @@ function apiConfigurationFactory(): Configuration {
         return '';
       }
 
-      return localStorage.getItem('technical-office-access-token') ?? '';
+      return localStorage.getItem('reusable-identity-access-token') ?? '';
     },
   });
 }
@@ -41,11 +33,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(ApiModule.forRoot(apiConfigurationFactory)),
     I18nPluralPipe,
-    { provide: DateAdapter, useFactory: adapterFactory },
-    CalendarUtils,
-    CalendarEventTitleFormatter,
-    CalendarDateFormatter,
-    CalendarA11y,
     provideRouter(routes, withViewTransitions()),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),

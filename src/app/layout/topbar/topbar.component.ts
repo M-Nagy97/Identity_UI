@@ -21,7 +21,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { LanguageService } from '../../core/services/language.service';
 import { AuthSessionService } from '../../features/auth/data/auth-session.service';
 
-const THEME_KEY = 'technical-office-theme';
+const THEME_KEY = 'reusable-identity-theme';
 
 @Component({
   selector: 'app-topbar',

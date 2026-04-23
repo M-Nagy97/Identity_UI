@@ -11,15 +11,17 @@
  */
 
 
-export interface UserProfileDto { 
+export interface AuthResponseDto { 
     userId?: string;
-    displayName?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
-    phoneNumber?: string | null;
-    avatarUrl?: string | null;
-    timeZone?: string | null;
-    preferredLanguage?: string | null;
-    bio?: string | null;
+    userName?: string | null;
+    email?: string | null;
+    accessToken?: string | null;
+    accessTokenExpiresAtUtc?: string;
+    refreshToken?: string | null;
+    refreshTokenExpiresAtUtc?: string;
+    roles?: Array<string> | null;
+    permissions?: Array<string> | null;
+    modules?: Array<string> | null;
+    pages?: Array<string> | null;
 }
 

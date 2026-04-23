@@ -11,14 +11,13 @@
  */
 
 
-export interface CreateUserProfileRequestDto { 
-    displayName: string;
-    firstName?: string | null;
-    lastName?: string | null;
-    phoneNumber?: string | null;
-    avatarUrl?: string | null;
-    timeZone?: string | null;
-    preferredLanguage?: string | null;
-    bio?: string | null;
+export interface PageDto { 
+    id?: number;
+    code?: string | null;
+    name?: string | null;
+    urlPath?: string | null;
+    parentId?: number | null;
+    moduleId?: number | null;
+    permissionId?: number | null;
 }
 

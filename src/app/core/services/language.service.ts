@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-const LANGUAGE_KEY = 'technical-office-language';
+const LANGUAGE_KEY = 'reusable-identity-language';
 
 type AppLanguage = 'ar' | 'en';
 

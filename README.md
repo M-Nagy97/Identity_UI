@@ -70,7 +70,7 @@ dotnet run --project src/ReusableIdentity.API/ReusableIdentity.API.csproj --no-l
 ## Important Files
 
 - `package.json` - scripts and dependencies.
-- `angular.json` - Angular project config. The project is still named `inventra-client`; treat that as legacy naming.
+- `angular.json` - Angular project config.
 - `proxy.conf.json` - dev proxy for `/api`.
 - `swagger.json` - local OpenAPI document used to generate the API client.
 - `openapitools.json` - OpenAPI generator config.
@@ -135,14 +135,14 @@ Not fully implemented yet:
 
 Session state is in `AuthSessionService`.
 
-Local storage keys currently use the legacy prefix `technical-office-*`:
+Local storage keys use the `reusable-identity-*` prefix:
 
-- `technical-office-authenticated`
-- `technical-office-access-token`
-- `technical-office-refresh-token`
-- `technical-office-user-id`
-- `technical-office-language`
-- `technical-office-theme`
+- `reusable-identity-authenticated`
+- `reusable-identity-access-token`
+- `reusable-identity-refresh-token`
+- `reusable-identity-user-id`
+- `reusable-identity-language`
+- `reusable-identity-theme`
 
 The generated API client gets the bearer token through `Configuration.accessToken` in `app.config.ts`.
 

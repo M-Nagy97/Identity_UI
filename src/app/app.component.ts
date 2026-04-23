@@ -10,7 +10,7 @@ import { LanguageService } from './core/services/language.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'technical-office-system';
+  title = 'identity-ui';
 
   constructor() {
     inject(LanguageService);

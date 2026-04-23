@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "inventra-client": {
+    "identity-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -39,7 +39,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/inventra-client",
+            "outputPath": "dist/identity-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -52,11 +52,10 @@
               "src/assets"
             ],
             "styles": [
-                "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-  "node_modules/primeng/resources/primeng.min.css",
-  "node_modules/primeicons/primeicons.css",
-              "src/app/styles/main.scss",
-              "node_modules/angular-calendar/css/angular-calendar.css"
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
+              "src/app/styles/main.scss"
             ],
             "scripts": []
           },
@@ -97,10 +96,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "inventra-client:build:production"
+              "buildTarget": "identity-ui:build:production"
             },
             "development": {
-              "buildTarget": "inventra-client:build:development"
+              "buildTarget": "identity-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -108,7 +107,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "inventra-client:build"
+            "buildTarget": "identity-ui:build"
           }
         },
         "test": {
@@ -125,8 +124,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/app/styles/main.scss",
-              "node_modules/angular-calendar/css/angular-calendar.css"
+              "src/app/styles/main.scss"
             ],
             "scripts": []
           }
