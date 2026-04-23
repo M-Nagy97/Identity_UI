@@ -1,0 +1,132 @@
+<div class="management-page">
+  <p-card>
+    <div class="page-header">
+      <div>
+        <div class="page-title">{{ 'modules.title' | translate }}</div>
+        <div class="page-subtitle">{{ 'modules.subtitle' | translate }}</div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-refresh"
+          severity="secondary"
+          [label]="'common.refresh' | translate"
+          [loading]="loading()"
+          (click)="loadModules()"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-plus"
+          [label]="'modules.actions.create' | translate"
+          (click)="openCreate()"
+        ></button>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="loading-state">
+        <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+        <span>{{ 'modules.messages.loading' | translate }}</span>
+      </div>
+    } @else {
+      <p-table
+        [value]="modules()"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [tableStyle]="{ 'min-width': '42rem' }"
+        styleClass="management-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ 'modules.fields.code' | translate }}</th>
+            <th>{{ 'modules.fields.name' | translate }}</th>
+            <th class="actions-column">{{ 'common.actions' | translate }}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-module>
+          <tr>
+            <td><span class="code-pill">{{ module.code || '-' }}</span></td>
+            <td>{{ module.name || '-' }}</td>
+            <td class="actions-column">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                size="small"
+                severity="secondary"
+                [pTooltip]="'common.edit' | translate"
+                (click)="openEdit(module)"
+              ></button>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                size="small"
+                severity="danger"
+                [pTooltip]="'common.delete' | translate"
+                (click)="confirmDelete(module)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" class="empty-state">{{ 'modules.messages.empty' | translate }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </p-card>
+
+  <p-dialog
+    [visible]="dialogVisible()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '32rem', maxWidth: '92vw' }"
+    [header]="(selectedModule()?.id != null ? 'modules.dialog.edit_title' : 'modules.dialog.create_title') | translate"
+    (visibleChange)="dialogVisible.set($event)"
+  >
+    <form class="entity-form" [formGroup]="form" (ngSubmit)="saveModule()">
+      <div class="field">
+        <label for="module-code">{{ 'modules.fields.code' | translate }}</label>
+        <input id="module-code" pInputText formControlName="code" autocomplete="off" />
+        @if (isInvalid('code')) {
+          <small class="p-error">{{ 'modules.validation.code_required' | translate }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="module-name">{{ 'modules.fields.name' | translate }}</label>
+        <input id="module-name" pInputText formControlName="name" autocomplete="off" />
+        @if (isInvalid('name')) {
+          <small class="p-error">{{ 'modules.validation.name_required' | translate }}</small>
+        }
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        type="button"
+        severity="secondary"
+        [label]="'common.cancel' | translate"
+        (click)="dialogVisible.set(false)"
+      ></button>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-save"
+        [label]="'common.save' | translate"
+        [loading]="saving()"
+        (click)="saveModule()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+</div>

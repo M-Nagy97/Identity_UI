@@ -1,0 +1,119 @@
+<div class="management-page">
+  <p-card>
+    <div class="page-header">
+      <div>
+        <div class="page-title">{{ 'roles.title' | translate }}</div>
+        <div class="page-subtitle">{{ 'roles.subtitle' | translate }}</div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-refresh"
+          severity="secondary"
+          [label]="'common.refresh' | translate"
+          [loading]="loading()"
+          (click)="loadRoles()"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-plus"
+          [label]="'roles.actions.create' | translate"
+          (click)="openCreate()"
+        ></button>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="loading-state">
+        <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+        <span>{{ 'roles.messages.loading' | translate }}</span>
+      </div>
+    } @else {
+      <p-table
+        [value]="roles()"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [tableStyle]="{ 'min-width': '48rem' }"
+        styleClass="management-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ 'roles.fields.name' | translate }}</th>
+            <th>{{ 'roles.fields.description' | translate }}</th>
+            <th class="actions-column">{{ 'common.actions' | translate }}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-role>
+          <tr>
+            <td>
+              <div class="name-cell">
+                <span class="entity-icon"><i class="pi pi-shield"></i></span>
+                <span>{{ role.name || '-' }}</span>
+              </div>
+            </td>
+            <td>{{ role.description || '-' }}</td>
+            <td class="actions-column">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-key"
+                size="small"
+                severity="secondary"
+                [pTooltip]="'roles.actions.permissions' | translate"
+                (click)="openPermissions(role)"
+              ></button>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                size="small"
+                severity="secondary"
+                [pTooltip]="'common.edit' | translate"
+                (click)="openEdit(role)"
+              ></button>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                size="small"
+                severity="danger"
+                [pTooltip]="'common.delete' | translate"
+                (click)="confirmDelete(role)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" class="empty-state">{{ 'roles.messages.empty' | translate }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </p-card>
+
+  <app-role-dialog
+    [visible]="roleDialogVisible()"
+    [role]="selectedRole()"
+    [saving]="saving()"
+    (visibleChange)="roleDialogVisible.set($event)"
+    (save)="saveRole($event)"
+  ></app-role-dialog>
+
+  <app-role-permissions-dialog
+    [visible]="permissionsDialogVisible()"
+    [role]="selectedRole()"
+    [permissions]="permissions()"
+    [selectedPermissionIds]="selectedPermissionIds()"
+    [loading]="permissionsLoading()"
+    [saving]="permissionsSaving()"
+    (visibleChange)="permissionsDialogVisible.set($event)"
+    (save)="savePermissions($event)"
+  ></app-role-permissions-dialog>
+</div>

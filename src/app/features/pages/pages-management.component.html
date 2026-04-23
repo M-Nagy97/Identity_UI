@@ -1,0 +1,191 @@
+<div class="management-page">
+  <p-card>
+    <div class="page-header">
+      <div>
+        <div class="page-title">{{ 'pages.title' | translate }}</div>
+        <div class="page-subtitle">{{ 'pages.subtitle' | translate }}</div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-refresh"
+          severity="secondary"
+          [label]="'common.refresh' | translate"
+          [loading]="loading()"
+          (click)="loadData()"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-plus"
+          [label]="'pages.actions.create' | translate"
+          (click)="openCreate()"
+        ></button>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="loading-state">
+        <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+        <span>{{ 'pages.messages.loading' | translate }}</span>
+      </div>
+    } @else {
+      <p-table
+        [value]="pages()"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [tableStyle]="{ 'min-width': '70rem' }"
+        styleClass="management-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ 'pages.fields.code' | translate }}</th>
+            <th>{{ 'pages.fields.name' | translate }}</th>
+            <th>{{ 'pages.fields.urlPath' | translate }}</th>
+            <th>{{ 'pages.fields.parent' | translate }}</th>
+            <th>{{ 'pages.fields.module' | translate }}</th>
+            <th>{{ 'pages.fields.permission' | translate }}</th>
+            <th class="actions-column">{{ 'common.actions' | translate }}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-page>
+          <tr>
+            <td><span class="code-pill">{{ page.code || '-' }}</span></td>
+            <td>{{ page.name || '-' }}</td>
+            <td>{{ page.urlPath || '-' }}</td>
+            <td>{{ parentLabel(page.parentId) }}</td>
+            <td>{{ moduleLabel(page.moduleId) }}</td>
+            <td>{{ permissionLabel(page.permissionId) }}</td>
+            <td class="actions-column">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                size="small"
+                severity="secondary"
+                [pTooltip]="'common.edit' | translate"
+                (click)="openEdit(page)"
+              ></button>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                size="small"
+                severity="danger"
+                [pTooltip]="'common.delete' | translate"
+                (click)="confirmDelete(page)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7" class="empty-state">{{ 'pages.messages.empty' | translate }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </p-card>
+
+  <p-dialog
+    [visible]="dialogVisible()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '44rem', maxWidth: '94vw' }"
+    [header]="(selectedPage()?.id != null ? 'pages.dialog.edit_title' : 'pages.dialog.create_title') | translate"
+    (visibleChange)="dialogVisible.set($event)"
+  >
+    <form class="entity-form" [formGroup]="form" (ngSubmit)="savePage()">
+      <div class="form-grid">
+        <div class="field">
+          <label for="page-code">{{ 'pages.fields.code' | translate }}</label>
+          <input id="page-code" pInputText formControlName="code" autocomplete="off" />
+          @if (isInvalid('code')) {
+            <small class="p-error">{{ 'pages.validation.code_required' | translate }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="page-name">{{ 'pages.fields.name' | translate }}</label>
+          <input id="page-name" pInputText formControlName="name" autocomplete="off" />
+          @if (isInvalid('name')) {
+            <small class="p-error">{{ 'pages.validation.name_required' | translate }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="page-url">{{ 'pages.fields.urlPath' | translate }}</label>
+        <input id="page-url" pInputText formControlName="urlPath" autocomplete="off" />
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="page-parent">{{ 'pages.fields.parent' | translate }}</label>
+          <p-dropdown
+            inputId="page-parent"
+            formControlName="parentId"
+            [options]="parentPageOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            appendTo="body"
+            [placeholder]="'pages.placeholders.parent' | translate"
+          ></p-dropdown>
+        </div>
+
+        <div class="field">
+          <label for="page-module">{{ 'pages.fields.module' | translate }}</label>
+          <p-dropdown
+            inputId="page-module"
+            formControlName="moduleId"
+            [options]="moduleOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            appendTo="body"
+            [placeholder]="'pages.placeholders.module' | translate"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="page-permission">{{ 'pages.fields.permission' | translate }}</label>
+        <p-dropdown
+          inputId="page-permission"
+          formControlName="permissionId"
+          [options]="permissionOptions()"
+          optionLabel="label"
+          optionValue="value"
+          [showClear]="true"
+          appendTo="body"
+          [placeholder]="'pages.placeholders.permission' | translate"
+        ></p-dropdown>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        type="button"
+        severity="secondary"
+        [label]="'common.cancel' | translate"
+        (click)="dialogVisible.set(false)"
+      ></button>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-save"
+        [label]="'common.save' | translate"
+        [loading]="saving()"
+        (click)="savePage()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+</div>

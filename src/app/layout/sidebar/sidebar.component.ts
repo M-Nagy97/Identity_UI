@@ -62,6 +62,31 @@ export class SidebarComponent implements OnInit {
         },
       ],
     },
+    {
+      label: 'nav.system',
+      icon: 'pi pi-lock',
+      module: 'system',
+      children: [
+        {
+          label: 'nav.roles',
+          icon: 'pi pi-shield',
+          route: '/roles',
+          module: 'roles',
+        },
+        {
+          label: 'nav.modules',
+          icon: 'pi pi-th-large',
+          route: '/modules',
+          module: 'modules',
+        },
+        {
+          label: 'nav.pages',
+          icon: 'pi pi-sitemap',
+          route: '/pages',
+          module: 'pages',
+        },
+      ],
+    },
   ];
 
   isModuleExpanded(module: string): boolean {

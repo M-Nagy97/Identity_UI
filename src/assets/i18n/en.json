@@ -2,6 +2,10 @@
   "nav": {
     "dashboard": "Dashboard",
     "users": "Users",
+    "system": "System",
+    "roles": "Roles",
+    "modules": "Modules",
+    "pages": "Pages",
     "transactions": "Transactions",
     "collapse_sidebar": "Collapse sidebar",
     "expand_sidebar": "Expand sidebar",
@@ -95,6 +99,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "add": "Add",
+    "refresh": "Refresh",
+    "actions": "Actions",
     "back": "Back",
     "loading": "Loading...",
     "no_data": "No data",
@@ -281,6 +287,126 @@
       "save_success": "Profile updated successfully.",
       "save_error": "Failed to update profile.",
       "load_error": "Failed to load profile."
+    }
+  },
+  "roles": {
+    "title": "Manage roles",
+    "subtitle": "Create roles and control which permissions are assigned to each role.",
+    "fields": {
+      "name": "Name",
+      "description": "Description"
+    },
+    "actions": {
+      "create": "Add role",
+      "permissions": "Manage permissions"
+    },
+    "dialog": {
+      "create_title": "Add role",
+      "edit_title": "Edit role"
+    },
+    "validation": {
+      "name_required": "Role name is required."
+    },
+    "delete": {
+      "title": "Delete role",
+      "message": "Delete role {{name}}?"
+    },
+    "messages": {
+      "loading": "Loading roles...",
+      "empty": "No roles found.",
+      "load_error": "Could not load roles.",
+      "create_success": "Role was created successfully.",
+      "create_error": "Role creation failed.",
+      "update_success": "Role was updated successfully.",
+      "update_error": "Role update failed.",
+      "delete_success": "Role was deleted successfully.",
+      "delete_error": "Role delete failed."
+    },
+    "permissions": {
+      "title": "Permissions for {{role}}",
+      "loading": "Loading permissions...",
+      "empty": "No permissions found.",
+      "save": "Save permissions",
+      "load_error": "Could not load role permissions.",
+      "save_success": "Role permissions were updated successfully.",
+      "save_error": "Saving role permissions failed."
+    }
+  },
+  "modules": {
+    "title": "Manage modules",
+    "subtitle": "Create and maintain reusable modules used to group permissions, pages, and user access.",
+    "fields": {
+      "code": "Code",
+      "name": "Name"
+    },
+    "actions": {
+      "create": "Add module"
+    },
+    "dialog": {
+      "create_title": "Add module",
+      "edit_title": "Edit module"
+    },
+    "validation": {
+      "code_required": "Module code is required.",
+      "name_required": "Module name is required."
+    },
+    "delete": {
+      "title": "Delete module",
+      "message": "Delete module {{name}}?"
+    },
+    "messages": {
+      "loading": "Loading modules...",
+      "empty": "No modules found.",
+      "load_error": "Could not load modules.",
+      "create_success": "Module was created successfully.",
+      "create_error": "Module creation failed.",
+      "update_success": "Module was updated successfully.",
+      "update_error": "Module update failed.",
+      "delete_success": "Module was deleted successfully.",
+      "delete_error": "Module delete failed."
+    }
+  },
+  "pages": {
+    "title": "Manage pages",
+    "subtitle": "Create navigation pages and connect them to modules, parent pages, and required permissions.",
+    "fields": {
+      "code": "Code",
+      "name": "Name",
+      "urlPath": "URL path",
+      "parent": "Parent page",
+      "module": "Module",
+      "permission": "Permission"
+    },
+    "actions": {
+      "create": "Add page"
+    },
+    "dialog": {
+      "create_title": "Add page",
+      "edit_title": "Edit page"
+    },
+    "placeholders": {
+      "parent": "No parent",
+      "module": "Select module",
+      "permission": "Select permission"
+    },
+    "validation": {
+      "code_required": "Page code is required.",
+      "name_required": "Page name is required."
+    },
+    "delete": {
+      "title": "Delete page",
+      "message": "Delete page {{name}}?"
+    },
+    "messages": {
+      "loading": "Loading pages...",
+      "empty": "No pages found.",
+      "load_error": "Could not load pages.",
+      "create_success": "Page was created successfully.",
+      "create_error": "Page creation failed.",
+      "update_success": "Page was updated successfully.",
+      "update_error": "Page update failed.",
+      "delete_success": "Page was deleted successfully.",
+      "delete_error": "Page delete failed."
     }
   },
   "sales": {

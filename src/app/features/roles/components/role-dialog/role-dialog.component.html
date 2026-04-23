@@ -1,0 +1,48 @@
+<p-dialog
+  [visible]="visible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '32rem', maxWidth: '92vw' }"
+  [header]="(isEdit ? 'roles.dialog.edit_title' : 'roles.dialog.create_title') | translate"
+  (visibleChange)="visibleChange.emit($event)"
+  (onHide)="close()"
+>
+  <form class="role-form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field">
+      <label for="role-name">{{ 'roles.fields.name' | translate }}</label>
+      <input id="role-name" pInputText formControlName="name" autocomplete="off" />
+      @if (isInvalid('name')) {
+        <small class="p-error">{{ 'roles.validation.name_required' | translate }}</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="role-description">{{ 'roles.fields.description' | translate }}</label>
+      <textarea
+        id="role-description"
+        pInputTextarea
+        rows="4"
+        formControlName="description"
+      ></textarea>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="button"
+      severity="secondary"
+      [label]="'common.cancel' | translate"
+      (click)="close()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-save"
+      [label]="'common.save' | translate"
+      [loading]="saving"
+      (click)="submit()"
+    ></button>
+  </ng-template>
+</p-dialog>

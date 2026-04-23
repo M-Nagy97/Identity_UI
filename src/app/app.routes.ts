@@ -40,6 +40,21 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/users/users.routes').then((m) => m.USERS_ROUTES),
       },
+      {
+        path: 'roles',
+        loadComponent: () =>
+          import('./features/roles/roles-management.component').then((m) => m.RolesManagementComponent),
+      },
+      {
+        path: 'modules',
+        loadComponent: () =>
+          import('./features/modules/modules-management.component').then((m) => m.ModulesManagementComponent),
+      },
+      {
+        path: 'pages',
+        loadComponent: () =>
+          import('./features/pages/pages-management.component').then((m) => m.PagesManagementComponent),
+      },
     ],
   },
   {
