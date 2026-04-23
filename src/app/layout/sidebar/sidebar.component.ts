@@ -80,6 +80,12 @@ export class SidebarComponent implements OnInit {
           module: 'modules',
         },
         {
+          label: 'nav.permissions',
+          icon: 'pi pi-key',
+          route: '/permissions',
+          module: 'permissions',
+        },
+        {
           label: 'nav.pages',
           icon: 'pi pi-sitemap',
           route: '/pages',

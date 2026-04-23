@@ -51,6 +51,11 @@ export const routes: Routes = [
           import('./features/modules/modules-management.component').then((m) => m.ModulesManagementComponent),
       },
       {
+        path: 'permissions',
+        loadComponent: () =>
+          import('./features/permissions/permissions-management.component').then((m) => m.PermissionsManagementComponent),
+      },
+      {
         path: 'pages',
         loadComponent: () =>
           import('./features/pages/pages-management.component').then((m) => m.PagesManagementComponent),

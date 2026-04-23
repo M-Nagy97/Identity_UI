@@ -1,0 +1,164 @@
+<div class="management-page">
+  <p-card>
+    <div class="page-header">
+      <div>
+        <div class="page-title">{{ 'permissions.title' | translate }}</div>
+        <div class="page-subtitle">{{ 'permissions.subtitle' | translate }}</div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-refresh"
+          severity="secondary"
+          [label]="'common.refresh' | translate"
+          [loading]="loading()"
+          (click)="loadData()"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-plus"
+          [label]="'permissions.actions.create' | translate"
+          (click)="openCreate()"
+        ></button>
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="loading-state">
+        <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+        <span>{{ 'permissions.messages.loading' | translate }}</span>
+      </div>
+    } @else {
+      <p-table
+        [value]="permissions()"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [tableStyle]="{ 'min-width': '62rem' }"
+        styleClass="management-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ 'permissions.fields.code' | translate }}</th>
+            <th>{{ 'permissions.fields.name' | translate }}</th>
+            <th>{{ 'permissions.fields.description' | translate }}</th>
+            <th>{{ 'permissions.fields.module' | translate }}</th>
+            <th class="actions-column">{{ 'common.actions' | translate }}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-permission>
+          <tr>
+            <td><span class="code-pill">{{ permission.code || '-' }}</span></td>
+            <td>{{ permission.name || '-' }}</td>
+            <td>{{ permission.description || '-' }}</td>
+            <td>{{ moduleLabel(permission.moduleId) }}</td>
+            <td class="actions-column">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                size="small"
+                severity="secondary"
+                [pTooltip]="'common.edit' | translate"
+                (click)="openEdit(permission)"
+              ></button>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                size="small"
+                severity="danger"
+                [pTooltip]="'common.delete' | translate"
+                (click)="confirmDelete(permission)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="empty-state">{{ 'permissions.messages.empty' | translate }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </p-card>
+
+  <p-dialog
+    [visible]="dialogVisible()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '40rem', maxWidth: '94vw' }"
+    [header]="(selectedPermission()?.id != null ? 'permissions.dialog.edit_title' : 'permissions.dialog.create_title') | translate"
+    (visibleChange)="dialogVisible.set($event)"
+  >
+    <form class="entity-form" [formGroup]="form" (ngSubmit)="savePermission()">
+      <div class="form-grid">
+        <div class="field">
+          <label for="permission-code">{{ 'permissions.fields.code' | translate }}</label>
+          <input id="permission-code" pInputText formControlName="code" autocomplete="off" />
+          @if (isInvalid('code')) {
+            <small class="p-error">{{ 'permissions.validation.code_required' | translate }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="permission-name">{{ 'permissions.fields.name' | translate }}</label>
+          <input id="permission-name" pInputText formControlName="name" autocomplete="off" />
+          @if (isInvalid('name')) {
+            <small class="p-error">{{ 'permissions.validation.name_required' | translate }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="permission-module">{{ 'permissions.fields.module' | translate }}</label>
+        <p-dropdown
+          inputId="permission-module"
+          formControlName="moduleId"
+          [options]="moduleOptions()"
+          optionLabel="label"
+          optionValue="value"
+          appendTo="body"
+          [placeholder]="'permissions.placeholders.module' | translate"
+        ></p-dropdown>
+        @if (isInvalid('moduleId')) {
+          <small class="p-error">{{ 'permissions.validation.module_required' | translate }}</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="permission-description">{{ 'permissions.fields.description' | translate }}</label>
+        <textarea
+          id="permission-description"
+          pInputTextarea
+          rows="4"
+          formControlName="description"
+        ></textarea>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        type="button"
+        severity="secondary"
+        [label]="'common.cancel' | translate"
+        (click)="dialogVisible.set(false)"
+      ></button>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-save"
+        [label]="'common.save' | translate"
+        [loading]="saving()"
+        (click)="savePermission()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+</div>

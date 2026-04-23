@@ -5,6 +5,7 @@
     "system": "System",
     "roles": "Roles",
     "modules": "Modules",
+    "permissions": "Permissions",
     "pages": "Pages",
     "transactions": "Transactions",
     "collapse_sidebar": "Collapse sidebar",
@@ -35,6 +36,10 @@
   "breadcrumb": {
     "dashboard": "Dashboard",
     "users": "Users",
+    "roles": "Roles",
+    "modules": "Modules",
+    "permissions": "Permissions",
+    "pages": "Pages",
     "create": "Add",
     "list": "Manage",
     "edit": "Edit",
@@ -364,6 +369,46 @@
       "update_error": "Module update failed.",
       "delete_success": "Module was deleted successfully.",
       "delete_error": "Module delete failed."
+    }
+  },
+  "permissions": {
+    "title": "Manage permissions",
+    "subtitle": "Create reusable permissions and assign each permission to a module.",
+    "fields": {
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "module": "Module"
+    },
+    "actions": {
+      "create": "Add permission"
+    },
+    "dialog": {
+      "create_title": "Add permission",
+      "edit_title": "Edit permission"
+    },
+    "placeholders": {
+      "module": "Select module"
+    },
+    "validation": {
+      "code_required": "Permission code is required.",
+      "name_required": "Permission name is required.",
+      "module_required": "Module is required."
+    },
+    "delete": {
+      "title": "Delete permission",
+      "message": "Delete permission {{name}}?"
+    },
+    "messages": {
+      "loading": "Loading permissions...",
+      "empty": "No permissions found.",
+      "load_error": "Could not load permissions.",
+      "create_success": "Permission was created successfully.",
+      "create_error": "Permission creation failed.",
+      "update_success": "Permission was updated successfully.",
+      "update_error": "Permission update failed.",
+      "delete_success": "Permission was deleted successfully.",
+      "delete_error": "Permission delete failed."
     }
   },
   "pages": {

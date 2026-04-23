@@ -54,6 +54,13 @@ export interface PagePayload {
   permissionId: number | null;
 }
 
+export interface PermissionPayload {
+  code: string;
+  name: string;
+  description: string | null;
+  moduleId: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class IdentityManagementApiService {
   private readonly http = inject(HttpClient);
@@ -121,6 +128,18 @@ export class IdentityManagementApiService {
 
   getPermissions(): Observable<IdentityPermission[]> {
     return this.http.get<IdentityPermission[]>(this.url('/api/permissions'), this.options());
+  }
+
+  createPermission(payload: PermissionPayload): Observable<IdentityPermission> {
+    return this.http.post<IdentityPermission>(this.url('/api/permissions'), payload, this.options());
+  }
+
+  updatePermission(id: number, payload: PermissionPayload): Observable<IdentityPermission> {
+    return this.http.put<IdentityPermission>(this.url(`/api/permissions/${id}`), payload, this.options());
+  }
+
+  deletePermission(id: number): Observable<void> {
+    return this.http.delete<void>(this.url(`/api/permissions/${id}`), this.options());
   }
 
   private url(path: string): string {

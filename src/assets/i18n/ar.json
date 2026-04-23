@@ -3,6 +3,7 @@
     "system": "النظام",
     "roles": "الأدوار",
     "modules": "الوحدات",
+    "permissions": "الصلاحيات",
     "pages": "الصفحات",
     "users": "المستخدمون",
     "dashboard": "لوحة التحكم",
@@ -36,6 +37,7 @@
     "users": "المستخدمون",
     "roles": "الأدوار",
     "modules": "الوحدات",
+    "permissions": "الصلاحيات",
     "pages": "الصفحات",
     "create": "اضافة",
     "list": "إدارة",
@@ -367,6 +369,46 @@
       "update_error": "فشل تحديث الوحدة.",
       "delete_success": "تم حذف الوحدة بنجاح.",
       "delete_error": "فشل حذف الوحدة."
+    }
+  },
+  "permissions": {
+    "title": "إدارة الصلاحيات",
+    "subtitle": "أنشئ الصلاحيات القابلة لإعادة الاستخدام واربط كل صلاحية بوحدة.",
+    "fields": {
+      "code": "الكود",
+      "name": "الاسم",
+      "description": "الوصف",
+      "module": "الوحدة"
+    },
+    "actions": {
+      "create": "إضافة صلاحية"
+    },
+    "dialog": {
+      "create_title": "إضافة صلاحية",
+      "edit_title": "تعديل الصلاحية"
+    },
+    "placeholders": {
+      "module": "اختر الوحدة"
+    },
+    "validation": {
+      "code_required": "كود الصلاحية مطلوب.",
+      "name_required": "اسم الصلاحية مطلوب.",
+      "module_required": "الوحدة مطلوبة."
+    },
+    "delete": {
+      "title": "حذف الصلاحية",
+      "message": "هل تريد حذف الصلاحية {{name}}؟"
+    },
+    "messages": {
+      "loading": "جاري تحميل الصلاحيات...",
+      "empty": "لا توجد صلاحيات.",
+      "load_error": "تعذر تحميل الصلاحيات.",
+      "create_success": "تم إنشاء الصلاحية بنجاح.",
+      "create_error": "فشل إنشاء الصلاحية.",
+      "update_success": "تم تحديث الصلاحية بنجاح.",
+      "update_error": "فشل تحديث الصلاحية.",
+      "delete_success": "تم حذف الصلاحية بنجاح.",
+      "delete_error": "فشل حذف الصلاحية."
     }
   },
   "pages": {
