@@ -124,11 +124,53 @@
           [options]="moduleOptions()"
           optionLabel="label"
           optionValue="value"
+          [filter]="true"
+          filterBy="label"
+          [showClear]="true"
+          [loading]="modulesLoading()"
           appendTo="body"
           [placeholder]="'permissions.placeholders.module' | translate"
-        ></p-dropdown>
+          [emptyMessage]="'permissions.empty_states.no_modules' | translate"
+          [emptyFilterMessage]="'permissions.empty_states.no_matching_modules' | translate"
+        >
+          <ng-template pTemplate="empty">
+            <div class="dropdown-empty">
+              <div class="dropdown-empty-title">{{ 'permissions.empty_states.no_modules' | translate }}</div>
+              <div class="dropdown-empty-hint">{{ 'permissions.empty_states.create_module_first' | translate }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
         @if (isInvalid('moduleId')) {
           <small class="p-error">{{ 'permissions.validation.module_required' | translate }}</small>
+        }
+        @if (modulesLoading()) {
+          <small class="field-hint">{{ 'permissions.empty_states.loading_modules' | translate }}</small>
+        } @else if (modulesLoadFailed()) {
+          <div class="field-alert">
+            <span>{{ 'permissions.empty_states.modules_load_failed' | translate }}</span>
+            <button
+              pButton
+              type="button"
+              size="small"
+              severity="secondary"
+              icon="pi pi-refresh"
+              [label]="'common.refresh' | translate"
+              (click)="loadModules()"
+            ></button>
+          </div>
+        } @else if (!moduleOptions().length) {
+          <div class="field-alert">
+            <span>{{ 'permissions.empty_states.create_module_first' | translate }}</span>
+            <button
+              pButton
+              type="button"
+              size="small"
+              severity="secondary"
+              icon="pi pi-refresh"
+              [label]="'common.refresh' | translate"
+              (click)="loadModules()"
+            ></button>
+          </div>
         }
       </div>
 

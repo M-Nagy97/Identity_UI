@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { finalize, forkJoin } from 'rxjs';
+import { finalize } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -52,6 +52,8 @@ export class PermissionsManagementComponent implements OnInit {
   private readonly translate = inject(TranslateService);
 
   readonly loading = signal(true);
+  readonly modulesLoading = signal(false);
+  readonly modulesLoadFailed = signal(false);
   readonly saving = signal(false);
   readonly dialogVisible = signal(false);
   readonly selectedPermission = signal<IdentityPermission | null>(null);
@@ -70,23 +72,46 @@ export class PermissionsManagementComponent implements OnInit {
   }
 
   loadData(): void {
+    this.loadPermissions();
+    this.loadModules();
+  }
+
+  loadModules(): void {
+    this.modulesLoading.set(true);
+    this.modulesLoadFailed.set(false);
+
+    this.api.getModules()
+      .pipe(finalize(() => this.modulesLoading.set(false)))
+      .subscribe({
+        next: (modules) => {
+          this.modules.set([...modules].sort((left, right) => (left.code ?? '').localeCompare(right.code ?? '')));
+        },
+        error: (error) => {
+          this.modulesLoadFailed.set(true);
+          this.modules.set([]);
+          this.showError(error, 'permissions.messages.modules_load_error');
+        },
+      });
+  }
+
+  private loadPermissions(): void {
     this.loading.set(true);
 
-    forkJoin({
-      permissions: this.api.getPermissions(),
-      modules: this.api.getModules(),
-    })
+    this.api.getPermissions()
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
-        next: ({ permissions, modules }) => {
+        next: (permissions) => {
           this.permissions.set([...permissions].sort((left, right) => (left.code ?? '').localeCompare(right.code ?? '')));
-          this.modules.set([...modules].sort((left, right) => (left.code ?? '').localeCompare(right.code ?? '')));
         },
         error: (error) => this.showError(error, 'permissions.messages.load_error'),
       });
   }
 
   openCreate(): void {
+    if (!this.modules().length && !this.modulesLoading()) {
+      this.loadModules();
+    }
+
     this.selectedPermission.set(null);
     this.form.reset({
       code: '',
@@ -98,6 +123,10 @@ export class PermissionsManagementComponent implements OnInit {
   }
 
   openEdit(permission: IdentityPermission): void {
+    if (!this.modules().length && !this.modulesLoading()) {
+      this.loadModules();
+    }
+
     this.selectedPermission.set(permission);
     this.form.reset({
       code: permission.code ?? '',
@@ -160,7 +189,7 @@ export class PermissionsManagementComponent implements OnInit {
     return this.modules()
       .filter((module) => module.id != null)
       .map((module) => ({
-        label: `${module.name || module.code || module.id} (${module.code || module.id})`,
+        label: this.moduleOptionLabel(module),
         value: module.id!,
       }));
   }
@@ -172,6 +201,17 @@ export class PermissionsManagementComponent implements OnInit {
 
     const module = this.modules().find((item) => item.id === moduleId);
     return module?.name || module?.code || `${moduleId}`;
+  }
+
+  private moduleOptionLabel(module: IdentityModule): string {
+    const name = module.name?.trim();
+    const code = module.code?.trim();
+
+    if (name && code) {
+      return `${name} (${code})`;
+    }
+
+    return name || code || `${module.id}`;
   }
 
   isInvalid(controlName: keyof typeof this.form.controls): boolean {

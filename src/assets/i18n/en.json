@@ -390,6 +390,13 @@
     "placeholders": {
       "module": "Select module"
     },
+    "empty_states": {
+      "no_modules": "No modules available",
+      "no_matching_modules": "No matching modules found",
+      "loading_modules": "Loading modules...",
+      "modules_load_failed": "Could not load modules. Check the API connection or your authorization.",
+      "create_module_first": "Create at least one module before adding permissions."
+    },
     "validation": {
       "code_required": "Permission code is required.",
       "name_required": "Permission name is required.",
@@ -403,6 +410,7 @@
       "loading": "Loading permissions...",
       "empty": "No permissions found.",
       "load_error": "Could not load permissions.",
+      "modules_load_error": "Could not load modules for permission assignment.",
       "create_success": "Permission was created successfully.",
       "create_error": "Permission creation failed.",
       "update_success": "Permission was updated successfully.",

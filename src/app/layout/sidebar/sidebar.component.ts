@@ -1,5 +1,17 @@
-import { Component, input, output, signal, inject, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  inject,
+  OnInit,
+} from '@angular/core';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  NavigationEnd,
+} from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -49,16 +61,17 @@ export class SidebarComponent implements OnInit {
       module: 'users',
       children: [
         {
-          label: 'users.actions.manage',
-          icon: 'pi pi-list',
-          route: '/users/list',
-          module: 'users-list',
-        },
-        {
           label: 'users.actions.create',
           icon: 'pi pi-user-plus',
           route: '/users/create',
           module: 'users-create',
+        },
+
+        {
+          label: 'users.actions.manage',
+          icon: 'pi pi-list',
+          route: '/users/list',
+          module: 'users-list',
         },
       ],
     },
@@ -110,12 +123,15 @@ export class SidebarComponent implements OnInit {
 
   isRouteActive(route: string | undefined): boolean {
     if (!route) return false;
-    if (route === '/dashboard') return this.router.url === '/dashboard' || this.router.url === '/';
+    if (route === '/dashboard')
+      return this.router.url === '/dashboard' || this.router.url === '/';
     return this.router.url.startsWith(route);
   }
 
   hasActiveChild(item: NavItem): boolean {
     if (!item.children?.length) return false;
-    return item.children.some((c: NavItem) => c.route && this.isRouteActive(c.route));
+    return item.children.some(
+      (c: NavItem) => c.route && this.isRouteActive(c.route),
+    );
   }
 }
