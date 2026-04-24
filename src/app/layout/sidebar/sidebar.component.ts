@@ -66,7 +66,6 @@ export class SidebarComponent implements OnInit {
           route: '/users/create',
           module: 'users-create',
         },
-
         {
           label: 'users.actions.manage',
           icon: 'pi pi-list',
@@ -83,25 +82,25 @@ export class SidebarComponent implements OnInit {
         {
           label: 'nav.roles',
           icon: 'pi pi-shield',
-          route: '/roles',
+          route: '/system/roles',
           module: 'roles',
         },
         {
           label: 'nav.modules',
           icon: 'pi pi-th-large',
-          route: '/modules',
+          route: '/system/modules',
           module: 'modules',
         },
         {
           label: 'nav.permissions',
           icon: 'pi pi-key',
-          route: '/permissions',
+          route: '/system/permissions',
           module: 'permissions',
         },
         {
           label: 'nav.pages',
           icon: 'pi pi-sitemap',
-          route: '/pages',
+          route: '/system/pages',
           module: 'pages',
         },
       ],

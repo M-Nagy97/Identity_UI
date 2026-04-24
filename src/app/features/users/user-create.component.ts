@@ -20,10 +20,10 @@ import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { StepsModule } from 'primeng/steps';
 import {
-  CreateUserProfileRequestDto,
   CreateUserRequestDto,
-  UsersService,
   ProfileService,
+  UpdateUserProfileRequestDto,
+  UsersService,
 } from '../../core/api/generated';
 
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -179,7 +179,7 @@ export class UserCreateComponent implements OnInit {
     this.savingProfile.set(true);
 
     this.profileService
-      .apiProfileUserIdPost(this.createdUserId()!, this.buildProfilePayload())
+      .apiProfileUserIdPut(this.createdUserId()!, this.buildProfilePayload())
       .pipe(finalize(() => this.savingProfile.set(false)))
       .subscribe({
         next: () => {
@@ -223,7 +223,7 @@ export class UserCreateComponent implements OnInit {
     };
   }
 
-  private buildProfilePayload(): CreateUserProfileRequestDto {
+  private buildProfilePayload(): UpdateUserProfileRequestDto {
     const value = this.profileForm.getRawValue();
 
     return {

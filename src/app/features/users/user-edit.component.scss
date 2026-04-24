@@ -62,6 +62,20 @@
   font-weight: 600;
 }
 
+.multiselect-field {
+  width: 100%;
+}
+
+.option-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.option-item small {
+  color: var(--text-color-secondary);
+}
+
 .toggle-row {
   min-height: 2.75rem;
   display: flex;

@@ -10,14 +10,31 @@ import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {
+  ModuleDto,
+  ModulesService,
+  RoleDto,
+  RolesService,
   UpdateUserProfileRequestDto,
   UpdateUserRequestDto,
   UserFullDetailsDto,
   UsersService,
   ProfileService,
 } from '../../core/api/generated';
+
+type RoleOption = {
+  name: string;
+  description: string | null;
+};
+
+type ModuleOption = {
+  id: number;
+  code: string;
+  name: string;
+  label: string;
+};
 
 @Component({
   selector: 'app-user-edit',
@@ -31,6 +48,7 @@ import {
     CheckboxModule,
     InputTextareaModule,
     InputTextModule,
+    MultiSelectModule,
     ProgressSpinnerModule,
   ],
   templateUrl: './user-edit.component.html',
@@ -41,6 +59,8 @@ export class UserEditComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly usersService = inject(UsersService);
+  private readonly rolesService = inject(RolesService);
+  private readonly modulesService = inject(ModulesService);
   private readonly profileService = inject(ProfileService);
   private readonly messageService = inject(MessageService);
   private readonly translate = inject(TranslateService);
@@ -48,12 +68,15 @@ export class UserEditComponent implements OnInit {
   readonly loading = signal(true);
   readonly saving = signal(false);
   readonly userId = signal<string>('');
-  readonly originalRoleNames = signal<string[]>([]);
+  readonly availableRoles = signal<RoleOption[]>([]);
+  readonly availableModules = signal<ModuleOption[]>([]);
 
   readonly accountForm = this.formBuilder.nonNullable.group({
     userName: ['', [Validators.required, Validators.maxLength(64)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(256)]],
     isActive: true,
+    roles: this.formBuilder.nonNullable.control<string[]>([]),
+    moduleIds: this.formBuilder.nonNullable.control<number[]>([]),
   });
 
   readonly profileForm = this.formBuilder.nonNullable.group({
@@ -114,10 +137,18 @@ export class UserEditComponent implements OnInit {
   private loadUser(id: string): void {
     this.loading.set(true);
 
-    this.usersService.apiUsersIdFullGet(id)
+    forkJoin({
+      user: this.usersService.apiUsersIdFullGet(id),
+      roles: this.rolesService.apiRolesGet(),
+      modules: this.modulesService.apiModulesGet(),
+    })
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
-        next: (user) => this.patchForms(user),
+        next: ({ user, roles, modules }) => {
+          this.availableRoles.set(this.mapRoleOptions(roles ?? []));
+          this.availableModules.set(this.mapModuleOptions(modules ?? []));
+          this.patchForms(user);
+        },
         error: (error) => {
           this.messageService.add({
             severity: 'error',
@@ -133,13 +164,9 @@ export class UserEditComponent implements OnInit {
       userName: user.userName ?? '',
       email: user.email ?? '',
       isActive: user.isActive ?? true,
+      roles: this.normalizeRoleNames((user.roles ?? []).map((role) => role.name)),
+      moduleIds: this.normalizeModuleIds((user.modules ?? []).map((module) => module.id)),
     });
-
-    this.originalRoleNames.set(
-      (user.roles ?? [])
-        .map((role) => role.name)
-        .filter((roleName): roleName is string => !!roleName),
-    );
 
     this.profileForm.patchValue({
       displayName: user.profile?.displayName ?? user.userName ?? '',
@@ -160,7 +187,8 @@ export class UserEditComponent implements OnInit {
       userName: value.userName.trim(),
       email: value.email.trim(),
       isActive: value.isActive,
-      roles: this.originalRoleNames(),
+      roles: this.normalizeRoleNames(value.roles),
+      moduleIds: this.normalizeModuleIds(value.moduleIds),
     };
   }
 
@@ -182,6 +210,47 @@ export class UserEditComponent implements OnInit {
   private toNullable(value: string): string | null {
     const trimmed = value.trim();
     return trimmed ? trimmed : null;
+  }
+
+  private mapRoleOptions(roles: ReadonlyArray<RoleDto>): RoleOption[] {
+    return [...roles]
+      .map((role) => ({
+        name: role.name?.trim() ?? '',
+        description: role.description ?? null,
+      }))
+      .filter((role) => role.name.length > 0)
+      .sort((left, right) => left.name.localeCompare(right.name));
+  }
+
+  private mapModuleOptions(modules: ReadonlyArray<ModuleDto>): ModuleOption[] {
+    return [...modules]
+      .filter((module): module is Required<Pick<ModuleDto, 'id'>> & ModuleDto => module.id != null)
+      .map((module) => {
+        const name = module.name?.trim() ?? '';
+        const code = module.code?.trim() ?? '';
+
+        return {
+          id: module.id,
+          code,
+          name,
+          label: code && name ? `${name} (${code})` : name || code || `#${module.id}`,
+        };
+      })
+      .sort((left, right) => left.name.localeCompare(right.name));
+  }
+
+  private normalizeRoleNames(roleNames: ReadonlyArray<string | null | undefined>): string[] {
+    return [...new Set(
+      roleNames
+        .map((roleName) => roleName?.trim() ?? '')
+        .filter((roleName) => roleName.length > 0),
+    )];
+  }
+
+  private normalizeModuleIds(moduleIds: ReadonlyArray<number | null | undefined>): number[] {
+    return [...new Set(
+      moduleIds.filter((moduleId): moduleId is number => typeof moduleId === 'number' && moduleId > 0),
+    )];
   }
 
   private extractErrorMessage(error: unknown, fallback: string): string {

@@ -16,5 +16,5 @@ export interface UpdateUserRequestDto {
     email: string;
     isActive?: boolean;
     roles?: Array<string> | null;
+    moduleIds?: Array<number> | null;
 }
-

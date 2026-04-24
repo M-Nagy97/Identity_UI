@@ -41,24 +41,29 @@ export const routes: Routes = [
           import('./features/users/users.routes').then((m) => m.USERS_ROUTES),
       },
       {
-        path: 'roles',
-        loadComponent: () =>
-          import('./features/roles/roles-management.component').then((m) => m.RolesManagementComponent),
-      },
-      {
-        path: 'modules',
-        loadComponent: () =>
-          import('./features/modules/modules-management.component').then((m) => m.ModulesManagementComponent),
-      },
-      {
-        path: 'permissions',
-        loadComponent: () =>
-          import('./features/permissions/permissions-management.component').then((m) => m.PermissionsManagementComponent),
-      },
-      {
-        path: 'pages',
-        loadComponent: () =>
-          import('./features/pages/pages-management.component').then((m) => m.PagesManagementComponent),
+        path: 'system',
+        children: [
+          {
+            path: 'roles',
+            loadComponent: () =>
+              import('./features/roles/roles-management.component').then((m) => m.RolesManagementComponent),
+          },
+          {
+            path: 'modules',
+            loadComponent: () =>
+              import('./features/modules/modules-management.component').then((m) => m.ModulesManagementComponent),
+          },
+          {
+            path: 'permissions',
+            loadComponent: () =>
+              import('./features/permissions/permissions-management.component').then((m) => m.PermissionsManagementComponent),
+          },
+          {
+            path: 'pages',
+            loadComponent: () =>
+              import('./features/pages/pages-management.component').then((m) => m.PagesManagementComponent),
+          },
+        ],
       },
     ],
   },

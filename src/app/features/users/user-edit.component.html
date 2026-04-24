@@ -67,6 +67,58 @@
           </div>
         </section>
 
+        <section class="form-section" [formGroup]="accountForm">
+          <div class="form-section__header">
+            <h3>{{ 'users.edit.access_section' | translate }}</h3>
+            <p>{{ 'users.edit.access_hint' | translate }}</p>
+          </div>
+
+          <div class="grid">
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="roles">{{ 'users.edit.roles_label' | translate }}</label>
+              <p-multiSelect
+                inputId="roles"
+                formControlName="roles"
+                styleClass="multiselect-field"
+                [options]="availableRoles()"
+                optionLabel="name"
+                optionValue="name"
+                [filter]="true"
+                [showClear]="true"
+                display="chip"
+                appendTo="body"
+                [placeholder]="'users.edit.roles_placeholder' | translate"
+              >
+                <ng-template let-role pTemplate="item">
+                  <div class="option-item">
+                    <span>{{ role.name }}</span>
+                    @if (role.description) {
+                      <small>{{ role.description }}</small>
+                    }
+                  </div>
+                </ng-template>
+              </p-multiSelect>
+            </div>
+
+            <div class="col-12 md:col-6">
+              <label class="field-label" for="moduleIds">{{ 'users.edit.modules_label' | translate }}</label>
+              <p-multiSelect
+                inputId="moduleIds"
+                formControlName="moduleIds"
+                styleClass="multiselect-field"
+                [options]="availableModules()"
+                optionLabel="label"
+                optionValue="id"
+                [filter]="true"
+                [showClear]="true"
+                display="chip"
+                appendTo="body"
+                [placeholder]="'users.edit.modules_placeholder' | translate"
+              ></p-multiSelect>
+            </div>
+          </div>
+        </section>
+
         <section class="form-section" [formGroup]="profileForm">
           <div class="form-section__header">
             <h3>{{ 'users.edit.profile_section' | translate }}</h3>
